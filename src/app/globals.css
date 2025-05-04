@@ -10,48 +10,74 @@ body {
 /* Define the base colors */
 @layer base {
   :root {
-    --background: 220 10% 9%; /* Dark Gray */
-    --foreground: 220 10% 98%; /* Near White */
-    --card: 220 10% 15%; /* Dark Black */
-    --card-foreground: 220 10% 98%; /* Near White */
-    --popover: 220 10% 15%; /* Dark Black */
-    --popover-foreground: 220 10% 98%; /* Near White */
-    --primary: 20 90% 50%; /* Orange */
-    --primary-foreground: 220 10% 5%; /* Near Black */
-    --secondary: 220 10% 20%; /* Dark Gray */
-    --secondary-foreground: 220 10% 90%; /* Light Gray */
-    --muted: 220 10% 12%; /* Very Dark Gray */
-    --muted-foreground: 220 10% 60%; /* Light Gray */
-    --accent: 220 50% 50%; /* Teal */
-    --accent-foreground: 220 10% 5%; /* Near Black */
-    --destructive: 0 72.2% 50.6%; /* Red */
+    --background: 0 0% 100%; /* White */
+    --foreground: 0 0% 3.9%; /* Near Black */
+    --card: 0 0% 100%; /* White */
+    --card-foreground: 0 0% 3.9%; /* Near Black */
+    --popover: 0 0% 100%; /* White */
+    --popover-foreground: 0 0% 3.9%; /* Near Black */
+    --primary: 24.6 95% 53.1%; /* Orange */
+    --primary-foreground: 0 0% 98%; /* Near White */
+    --secondary: 0 0% 96.1%; /* Light Gray */
+    --secondary-foreground: 0 0% 9%; /* Near Black */
+    --muted: 0 0% 96.1%; /* Light Gray */
+    --muted-foreground: 0 0% 45.1%; /* Medium Gray */
+    --accent: 0 0% 94.1%; /* Lighter Silver/Gray */
+    --accent-foreground: 0 0% 9%; /* Near Black */
+    --destructive: 0 84.2% 60.2%; /* Red */
     --destructive-foreground: 0 0% 98%; /* Near White */
-    --border: 220 10% 30%; /* Dark Gray */
-    --input: 220 10% 20%; /* Dark Black */
-    --ring: 220 90% 60%; /* Blue */
+    --border: 0 0% 89.8%; /* Light Gray */
+    --input: 0 0% 89.8%; /* Light Gray */
+    --ring: 24.6 95% 53.1%; /* Orange */
     --radius: 0.75rem;
-
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 0 0% 3.9%;
+    --sidebar-primary: 24.6 95% 53.1%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 0 0% 94.1%;
+    --sidebar-accent-foreground: 0 0% 9%;
+    --sidebar-border: 0 0% 89.8%;
+    --sidebar-ring: 24.6 95% 53.1%;
   }
 
   .dark {
-    --background: 220 10% 5%; /* Dark Gray */
-    --foreground: 220 10% 90%; /* Near White */
-    --card: 220 10% 12%; /* Dark Black */
-    --card-foreground: 220 10% 98%; /* Near White */
-    --popover-foreground: 220 10% 98%; /* Near White */
-    --primary: 220 90% 60%; /* Blue */
-    --primary-foreground: 220 10% 5%; /* Near Black */
-    --secondary: 220 10% 20%; /* Dark Gray */
-    --secondary-foreground: 220 10% 98%; /* Near White */
-    --muted: 220 10% 12%; /* Very Dark Gray */
-    --muted-foreground: 220 10% 60%; /* Light Gray */
-    --accent: 220 50% 50%; /* Teal */
-    --accent-foreground: 220 10% 5%; /* Near Black */
-    --destructive: 0 72.2% 50.6%; /* Red */
+    --background: 0 0% 3.9%; /* Near Black */
+    --foreground: 0 0% 98%; /* Near White */
+    --card: 0 0% 9%; /* Darker Black */
+    --card-foreground: 0 0% 98%; /* Near White */
+    --popover: 0 0% 3.9%; /* Near Black */
+    --popover-foreground: 0 0% 98%; /* Near White */
+    --primary: 24.6 95% 53.1%; /* Orange */
+    --primary-foreground: 0 0% 9%; /* Near Black */
+    --secondary: 0 0% 14.9%; /* Dark Gray */
+    --secondary-foreground: 0 0% 98%; /* Near White */
+    --muted: 0 0% 14.9%; /* Dark Gray */
+    --muted-foreground: 0 0% 63.9%; /* Lighter Medium Gray */
+    --accent: 0 0% 14.9%; /* Dark Gray */
+    --accent-foreground: 0 0% 98%; /* Near White */
+    --destructive: 0 62.8% 30.6%; /* Darker Red */
     --destructive-foreground: 0 0% 98%; /* Near White */
-    --border: 220 10% 30%; /* Dark Gray */
-    --input: 220 10% 20%; /* Dark Black */
-    --ring: 220 90% 60%; /* Blue */
+    --border: 0 0% 14.9%; /* Dark Gray */
+    --input: 0 0% 14.9%; /* Dark Gray */
+    --ring: 24.6 95% 53.1%; /* Orange */
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 50%;
+    --sidebar-background: 0 0% 3.9%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 24.6 95% 53.1%;
+    --sidebar-primary-foreground: 0 0% 9%;
+    --sidebar-accent: 0 0% 14.9%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 0 0% 14.9%;
+    --sidebar-ring: 24.6 95% 53.1%;
   }
   body.dark {
     color-scheme: dark;
@@ -76,11 +102,11 @@ body {
 
 /* Footer styling */
 footer {
-  @apply text-muted-foreground py-4 border-t mt-auto w-full flex justify-center items-center px-4;  
+  @apply text-muted-foreground py-4 border-t mt-auto w-full flex justify-center items-center px-4;
 }
 /* Header styling */
 header {
-  @apply w-full py-6 px-4 border-b border-accent bg-secondary flex items-center justify-center rounded-b-lg;
+  @apply w-full py-6 px-4 border-b bg-card flex items-center justify-center rounded-b-lg;
 }
 
 /* Card styling */
@@ -89,28 +115,28 @@ header {
 }
 
 .card-section {
-  @apply w-full bg-card text-card-foreground shadow-md rounded-lg overflow-hidden border border-muted transition-colors;
-  box-shadow: 0 0 10px -2px var(--accent);
+  @apply w-full bg-card text-card-foreground shadow-md rounded-lg overflow-hidden border border-border transition-colors;
+  box-shadow: 0 0 10px -2px hsl(var(--accent)); /* Subtle glow using accent */
 }
 
 
 /* Button Styling */
 .button-primary {
   @apply bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-4 py-2 shadow-md transition-colors duration-200 ease-in-out;
-  box-shadow: 0 0 10px -3px var(--primary);
+  box-shadow: 0 0 10px -2px hsl(var(--primary));
 }
 
 .button-primary:hover {
-  box-shadow: 0 0 15px -3px var(--primary);
+  box-shadow: 0 0 15px -3px hsl(var(--primary));
 }
 
 .button-secondary {
   @apply bg-secondary text-secondary-foreground hover:bg-secondary/90 rounded-md px-4 py-2 shadow-md transition-colors duration-200 ease-in-out;
-  box-shadow: 0 0 10px -3px var(--secondary);
+  box-shadow: 0 0 10px -2px hsl(var(--secondary));
 }
 
 .button-secondary:hover {
-  box-shadow: 0 0 15px -3px var(--secondary);
+  box-shadow: 0 0 15px -3px hsl(var(--secondary));
 }
 
 .button-outline {
@@ -119,7 +145,7 @@ header {
 
 /* Category Select Styling */
 .category-select {
-  @apply bg-secondary rounded-lg text-foreground border-none;
+  @apply bg-secondary rounded-lg text-secondary-foreground border-none; /* Use secondary colors */
 }
 
 /* Next Quote Button Styling */
@@ -129,15 +155,15 @@ header {
 
 .button-destructive {
   @apply bg-destructive text-destructive-foreground hover:bg-destructive/90 rounded-md px-4 py-2 shadow-md transition-colors duration-200 ease-in-out;
-  box-shadow: 0 0 10px -3px var(--destructive);
+  box-shadow: 0 0 10px -3px hsl(var(--destructive));
 }
 
 .button-destructive:hover {
-  box-shadow: 0 0 15px -3px var(--destructive);
+  box-shadow: 0 0 15px -3px hsl(var(--destructive));
 }
 /* Quote Text */
 #quoteText {
-    @apply text-2xl;
+    @apply text-2xl text-foreground; /* Ensure quote text uses foreground color */
 }
 /* Loader */
 .loader-container {
@@ -155,10 +181,20 @@ header {
   to { opacity: 1; transform: translateY(0); }
 }
 /* Fade In Class*/
-header {
-  @apply w-full py-4 text-center;
-}
-.card-description{
-  @apply text-lg;
+.fade-in {
+  animation: fadeInUp 0.5s ease-out;
 }
 
+/* Main title in header */
+header h1 {
+  @apply text-primary-foreground; /* Use primary foreground for contrast */
+}
+
+/* Card Title */
+.card-title {
+    @apply text-card-foreground; /* Ensure card titles use card foreground */
+}
+
+.card-description{
+  @apply text-lg text-muted-foreground; /* Use muted foreground for descriptions */
+}

@@ -38,3 +38,5 @@ export function ThemeToggle() {
     </DropdownMenu>
   )
 }
+
+export default ThemeToggle;

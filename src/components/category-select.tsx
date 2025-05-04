@@ -14,14 +14,16 @@ const CategorySelect: React.FC<CategorySelectProps> = ({
   setSelectedCategory,
 }) => {
   return (
-    <div className="flex w-full items-center justify-center">
+    <div className="flex w-full items-center justify-center max-w-xs"> {/* Added max-width */}
       <Select
         onValueChange={(value) => setSelectedCategory(value as Category)}
         defaultValue={selectedCategory}
       >
-        <SelectTrigger className="w-full">
+        {/* Apply standard input styling for consistency */}
+        <SelectTrigger className="w-full bg-input text-foreground border-border focus:ring-ring">
           <SelectValue placeholder="Select a Category" />
         </SelectTrigger>
+        {/* Content uses popover styling by default */}
         <SelectContent>
           {categories.map((category) => (
             <SelectItem key={category} value={category}>

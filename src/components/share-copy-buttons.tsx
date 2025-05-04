@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Copy } from 'lucide-react'; // Keep Copy icon
+import { Copy, Share2, MessageSquare, Check } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 // Simple SVG for Facebook Icon
 const FacebookIcon = () => (
@@ -17,32 +23,37 @@ const WhatsAppIcon = () => (
   </svg>
 );
 
+// Simple SVG for Microsoft Teams Icon
+const TeamsIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+        <path d="M11.75 2.5a1.25 1.25 0 0 0-1.25 1.25V6h-2.5a1.25 1.25 0 0 0 0 2.5h2.5v1.75c0 .69.56 1.25 1.25 1.25h2.5a1.25 1.25 0 0 0 1.25-1.25V9.25h2.25a.75.75 0 0 0 0-1.5h-2.25V6a1.25 1.25 0 0 0-1.25-1.25h-2.5zm-5.75 6a.75.75 0 0 0-.75.75v8.5c0 .414.336.75.75.75h5a.75.75 0 0 0 0-1.5H6.75V9.25a.75.75 0 0 0-.75-.75zm10.5 2.25a1.25 1.25 0 0 0-1.25 1.25v4.25h-2a.75.75 0 0 0 0 1.5h2.75a.75.75 0 0 0 .75-.75v-5a.75.75 0 0 0-.75-.75h-.5zm-1.25-3.25a1.75 1.75 0 1 1 0 3.5 1.75 1.75 0 0 1 0-3.5zm-6.5 3.5a1.75 1.75 0 1 1-3.5 0 1.75 1.75 0 0 1 3.5 0z"/>
+    </svg>
+);
 
 interface ShareCopyButtonsProps {
-  // Ensure the prop type accepts null, matching the state in page.tsx
   quoteText: string | null;
 }
 
 const ShareCopyButtons: React.FC<ShareCopyButtonsProps> = ({ quoteText }) => {
   const { toast } = useToast();
+  const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
-    // Check if quoteText is not null or empty before copying
     if (quoteText) {
       try {
         await navigator.clipboard.writeText(quoteText);
-        toast({ title: 'Quote copied to clipboard!' });
+        setCopied(true);
+        toast({ title: 'Quote copied!' });
+        setTimeout(() => setCopied(false), 2000); // Reset icon after 2 seconds
       } catch (err) {
         console.error('Failed to copy text: ', err);
-        toast({ title: 'Copy Failed', description: 'Could not copy the quote to clipboard.', variant: 'destructive' });
+        toast({ title: 'Copy Failed', description: 'Could not copy the quote.', variant: 'destructive' });
       }
     } else {
-      // Handle case where there is no quote to copy
       toast({ title: 'Nothing to copy', description: 'No quote is currently displayed.', variant: 'destructive' });
     }
   };
 
-  // Function to open a share link in a new tab
   const openShareLink = (url: string) => {
     if (quoteText) {
       window.open(url, '_blank', 'noopener,noreferrer');
@@ -54,8 +65,6 @@ const ShareCopyButtons: React.FC<ShareCopyButtonsProps> = ({ quoteText }) => {
   const handleFacebookShare = () => {
     if (quoteText) {
       const encodedQuote = encodeURIComponent(quoteText);
-      // Facebook sharer.php primarily shares URLs, but the 'quote' parameter adds text.
-      // Provide a fallback URL (e.g., the current page) if needed, though 'quote' might suffice for text-only.
       const shareUrl = `https://www.facebook.com/sharer/sharer.php?quote=${encodedQuote}`;
       openShareLink(shareUrl);
     } else {
@@ -73,30 +82,49 @@ const ShareCopyButtons: React.FC<ShareCopyButtonsProps> = ({ quoteText }) => {
      }
   };
 
+   const handleTeamsShare = () => {
+     if (quoteText) {
+        const encodedQuote = encodeURIComponent(quoteText);
+        // Note: Teams deep links are more complex and often require specific contexts (chats/channels).
+        // This basic link opens Teams but might not pre-fill the message effectively everywhere.
+        // A more robust solution might involve the Microsoft Graph API.
+        const shareUrl = `https://teams.microsoft.com/l/chat/0/0?message=${encodedQuote}`;
+        openShareLink(shareUrl);
+     } else {
+       toast({ title: 'Nothing to share', description: 'No quote is currently displayed.', variant: 'destructive' });
+     }
+  };
+
 
   return (
-    <div className="flex justify-center gap-4 mt-4"> {/* Added margin-top */}
-      {/* Copy Button */}
+    <div className="flex justify-center gap-2 mt-4"> {/* Reduced gap slightly */}
+      {/* Copy Button - Use standard button variant */}
       <Button variant="outline" size="icon" onClick={handleCopy} aria-label="Copy Quote" disabled={!quoteText}>
-        <Copy className="h-5 w-5 text-accent-foreground" />
+        {/* Use foreground color for icon */}
+        {copied ? <Check className="h-5 w-5 text-green-500" /> : <Copy className="h-5 w-5 text-foreground" />}
       </Button>
 
-      {/* Facebook Share Button */}
-      <Button variant="outline" size="icon" onClick={handleFacebookShare} aria-label="Share Quote on Facebook" disabled={!quoteText}>
-        <FacebookIcon />
-      </Button>
-
-       {/* WhatsApp Share Button */}
-      <Button variant="outline" size="icon" onClick={handleWhatsAppShare} aria-label="Share Quote on WhatsApp" disabled={!quoteText}>
-        <WhatsAppIcon />
-      </Button>
-
-      {/* Removed the generic Share2 button */}
-      {/*
-      <Button variant="default" size="icon" onClick={handleShare} aria-label="Share Quote" disabled={!quoteText}>
-        <Share2 className="h-5 w-5" />
-      </Button>
-      */}
+      {/* Share Dropdown Button - Use standard button variant */}
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" size="icon" aria-label="Share Quote" disabled={!quoteText}>
+            {/* Use foreground color for icon */}
+            <Share2 className="h-5 w-5 text-foreground" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem onClick={handleFacebookShare}>
+            <FacebookIcon /> <span className="ml-2">Facebook</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={handleWhatsAppShare}>
+            <WhatsAppIcon /> <span className="ml-2">WhatsApp</span>
+          </DropdownMenuItem>
+           <DropdownMenuItem onClick={handleTeamsShare}>
+            <TeamsIcon /> <span className="ml-2">Microsoft Teams</span>
+          </DropdownMenuItem>
+          {/* Add more share options here if needed */}
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   );
 };
