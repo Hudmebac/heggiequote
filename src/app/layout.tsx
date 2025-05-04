@@ -8,7 +8,6 @@ const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-inter",
-  subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
@@ -22,7 +21,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    // Add suppressHydrationWarning to the html tag to fix hydration error
+    <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} font-sans`}>
         <ThemeProvider
           attribute="class"
@@ -34,6 +34,6 @@ export default function RootLayout({
           <Toaster /> {/* Add Toaster component */}
         </ThemeProvider>
       </body>
-    </html> 
+    </html>
   );
 }
