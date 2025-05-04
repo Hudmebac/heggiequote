@@ -71,17 +71,14 @@ const ShareCopyButtons: React.FC<ShareCopyButtonsProps> = ({ quoteText }) => {
   };
 
   const openShareLink = (url: string) => {
-    if (quoteText) {
-      window.open(url, '_blank', 'noopener,noreferrer');
-    } else {
-      toast({ title: 'Nothing to share', description: 'No quote is currently displayed.', variant: 'destructive' });
-    }
+    // No quote check needed here as calling functions already check
+    window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   const handleFacebookShare = async () => {
     if (quoteText) {
-      // Updated textToShare
-      const textToShare = `${quoteText}\n\n#DailyStandUp #Heggiehub(Links to https://heggie.netlify.app/)`;
+      // Construct the text with hashtags and link
+      const textToShare = `${quoteText}\n\n#DailyStandUp #Heggiehub\nhttps://heggie.netlify.app/`;
       const success = await copyToClipboard(textToShare);
       if(success) {
           toast({
@@ -99,9 +96,10 @@ const ShareCopyButtons: React.FC<ShareCopyButtonsProps> = ({ quoteText }) => {
 
   const handleWhatsAppShare = () => {
      if (quoteText) {
-        // Updated textToShare
-        const textToShare = `${quoteText}\n\n#DailyStandUp #Heggiehub(Links to https://heggie.netlify.app/)`;
+        // Construct the text with hashtags and link
+        const textToShare = `${quoteText}\n\n#DailyStandUp #Heggiehub\nhttps://heggie.netlify.app/`;
         const encodedQuote = encodeURIComponent(textToShare);
+        // The wa.me link opens WhatsApp with the text pre-filled, allowing the user to preview/edit before sending.
         const shareUrl = `https://wa.me/?text=${encodedQuote}`;
         openShareLink(shareUrl);
      } else {
@@ -111,12 +109,10 @@ const ShareCopyButtons: React.FC<ShareCopyButtonsProps> = ({ quoteText }) => {
 
    const handleTeamsShare = () => {
      if (quoteText) {
-        // Updated textToShare
-        const textToShare = `${quoteText}\n\n#DailyStandUp #Heggiehub(Links to https://heggie.netlify.app/)`;
+        // Construct the text with hashtags and link
+        const textToShare = `${quoteText}\n\n#DailyStandUp #Heggiehub\nhttps://heggie.netlify.app/`;
         const encodedQuote = encodeURIComponent(textToShare);
-        // Note: Teams deep links are more complex and often require specific contexts (chats/channels).
-        // This basic link opens Teams but might not pre-fill the message effectively everywhere.
-        // A more robust solution might involve the Microsoft Graph API.
+        // Note: Teams deep links are more complex. This basic link opens Teams but might not pre-fill well everywhere.
         const shareUrl = `https://teams.microsoft.com/l/chat/0/0?message=${encodedQuote}`;
         openShareLink(shareUrl);
      } else {
