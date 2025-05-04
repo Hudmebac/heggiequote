@@ -1,5 +1,6 @@
 # Daily Stand Up Quote
 
+
 ## Overview
 
 Daily Stand Up Quote is a Next.js application designed to provide you with daily motivation and inspiration. It's built within the Firebase Studio environment, allowing for seamless development and deployment.
