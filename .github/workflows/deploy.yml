@@ -1,0 +1,64 @@
+# .github/workflows/deploy.yml
+name: Deploy to Netlify
+
+on:
+  push:
+    branches:
+      - main # Or your default branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Match your project's Node.js version
+
+      - name: Install dependencies
+        run: npm install
+
+      # Add environment variables needed for build
+      # Make sure these are set as Repository Secrets in GitHub Settings
+      # Example: GOOGLE_GENAI_API_KEY
+      # - name: Set up Environment Variables for Build
+      #   run: |
+      #     echo "GOOGLE_GENAI_API_KEY=${{ secrets.GOOGLE_GENAI_API_KEY }}" >> $GITHUB_ENV
+      # Add other build-time environment variables here if needed
+
+      - name: Build Next.js app
+        run: npm run build
+        env:
+          # Pass any necessary build-time environment variables here
+          # Example: GOOGLE_GENAI_API_KEY: ${{ secrets.GOOGLE_GENAI_API_KEY }}
+          # Ensure you don't expose runtime keys needed only on the server
+          # If your Genkit key is only used in server components/actions, it might not be needed at build time.
+          # However, if it's used in flows called during build (e.g., for SSG), it would be needed.
+          # Double-check your application's needs.
+          NEXT_PUBLIC_EXAMPLE_VAR: ${{ secrets.NEXT_PUBLIC_EXAMPLE_VAR }} # Example public variable
+
+      - name: Install Netlify CLI
+        run: npm install -g netlify-cli
+
+      - name: Deploy to Netlify
+        run: netlify deploy --prod --dir=.next --build # Adjust --dir if your output directory is different
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }} # Required: Set this in GitHub Secrets
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}     # Required: Set this in GitHub Secrets
+          # Pass runtime environment variables needed by your deployed Netlify functions/server components
+          # These should be configured in Netlify's UI (Build & deploy > Environment)
+          # GITHUB_ACTIONS_NETLIFY_ENV_VAR_EXAMPLE: ${{ secrets.YOUR_RUNTIME_SECRET }} # Example only
+
+# Instructions for setting up Secrets in GitHub:
+# 1. Go to your GitHub repository -> Settings -> Secrets and variables -> Actions.
+# 2. Click "New repository secret".
+# 3. Add NETLIFY_AUTH_TOKEN: Generate a Personal Access Token from your Netlify User Settings (Applications > Personal access tokens).
+# 4. Add NETLIFY_SITE_ID: Find this in your Netlify Site Settings (Site details > API ID).
+# 5. Add any other secrets needed during the build process (like GOOGLE_GENAI_API_KEY if used at build time).
+
+# Instructions for setting up Environment Variables in Netlify:
+# 1. Go to your Netlify site dashboard -> Build & deploy -> Environment.
+# 2. Add environment variables needed by your *running* application (e.g., GOOGLE_GENAI_API_KEY for server-side Genkit flows).
