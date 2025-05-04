@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Copy, Share2, Check, Volume2, Loader2 } from 'lucide-react'; // Added Volume2, Loader2
+import { Copy, Share2, Check, Volume2, Loader2, Mail } from 'lucide-react'; // Added Mail icon
 import { useToast } from '@/hooks/use-toast';
 import {
   DropdownMenu,
@@ -62,7 +62,8 @@ const ShareCopyButtons: React.FC<ShareCopyButtonsProps> = ({ quoteText }) => {
 
   const handleCopy = async () => {
     if (quoteText) {
-        if(await copyToClipboard(quoteText)) {
+        const textToCopy = `${quoteText}\n\n#DailyStandUp #Heggiehub\nhttps://heggie.netlify.app/`;
+        if(await copyToClipboard(textToCopy)) {
             toast({ title: 'Quote copied!' });
         }
     } else {
@@ -120,6 +121,21 @@ const ShareCopyButtons: React.FC<ShareCopyButtonsProps> = ({ quoteText }) => {
      }
    };
 
+   const handleEmailShare = () => {
+    if (quoteText) {
+      // Construct the mailto link body with quote, hashtags, and link
+      const subject = encodeURIComponent("Daily Stand Up Quote");
+      const bodyText = `${quoteText}\n\n#DailyStandUp #Heggiehub\nhttps://heggie.netlify.app/`;
+      const encodedBody = encodeURIComponent(bodyText);
+      const shareUrl = `mailto:?subject=${subject}&body=${encodedBody}`;
+      // Use window.location.href for mailto: links for better compatibility
+      window.location.href = shareUrl;
+    } else {
+      toast({ title: 'Nothing to share', description: 'No quote is currently displayed.', variant: 'destructive' });
+    }
+  };
+
+
    const handleAudioNarration = () => {
     if (!speechSynthesis) {
         toast({ title: 'Audio Narration Unavailable', description: 'Your browser does not support speech synthesis.', variant: 'destructive' });
@@ -175,6 +191,9 @@ const ShareCopyButtons: React.FC<ShareCopyButtonsProps> = ({ quoteText }) => {
           </DropdownMenuItem>
            <DropdownMenuItem onClick={handleTeamsShare}>
             <TeamsIcon /> <span className="ml-2">Microsoft Teams</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={handleEmailShare}>
+            <Mail className="h-5 w-5" /> <span className="ml-2">Email</span>
           </DropdownMenuItem>
           {/* Add more share options here if needed */}
         </DropdownMenuContent>
