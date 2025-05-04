@@ -80,7 +80,8 @@ const ShareCopyButtons: React.FC<ShareCopyButtonsProps> = ({ quoteText }) => {
 
   const handleFacebookShare = async () => {
     if (quoteText) {
-      const textToShare = `${quoteText}\n\n#DailyStandUp #HEGGIEHUB(Links to https://heggie.netlify.app/)`;
+      // Updated textToShare
+      const textToShare = `${quoteText}\n\n#DailyStandUp #Heggiehub(Links to https://heggie.netlify.app/)`;
       const success = await copyToClipboard(textToShare);
       if(success) {
           toast({
@@ -98,7 +99,8 @@ const ShareCopyButtons: React.FC<ShareCopyButtonsProps> = ({ quoteText }) => {
 
   const handleWhatsAppShare = () => {
      if (quoteText) {
-        const textToShare = `${quoteText}\n\n#DailyStandUp #HEGGIEHUB(Links to https://heggie.netlify.app/)`;
+        // Updated textToShare
+        const textToShare = `${quoteText}\n\n#DailyStandUp #Heggiehub(Links to https://heggie.netlify.app/)`;
         const encodedQuote = encodeURIComponent(textToShare);
         const shareUrl = `https://wa.me/?text=${encodedQuote}`;
         openShareLink(shareUrl);
@@ -109,7 +111,8 @@ const ShareCopyButtons: React.FC<ShareCopyButtonsProps> = ({ quoteText }) => {
 
    const handleTeamsShare = () => {
      if (quoteText) {
-        const textToShare = `${quoteText}\n\n#DailyStandUp #HEGGIEHUB(Links to https://heggie.netlify.app/)`;
+        // Updated textToShare
+        const textToShare = `${quoteText}\n\n#DailyStandUp #Heggiehub(Links to https://heggie.netlify.app/)`;
         const encodedQuote = encodeURIComponent(textToShare);
         // Note: Teams deep links are more complex and often require specific contexts (chats/channels).
         // This basic link opens Teams but might not pre-fill the message effectively everywhere.
