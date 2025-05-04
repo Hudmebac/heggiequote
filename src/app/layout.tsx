@@ -25,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning> {/* suppressHydrationWarning for next-themes */}
+    <html lang="en" suppressHydrationWarning={true}>{/* suppressHydrationWarning for next-themes */}
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ThemeProvider
           attribute="class"
@@ -37,6 +37,6 @@ export default function RootLayout({
           <Toaster /> {/* Add Toaster component */}
         </ThemeProvider>
       </body>
-    </html>
+    </html> 
   );
 }
