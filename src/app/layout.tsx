@@ -23,7 +23,8 @@ export default function RootLayout({
   return (
     // Add suppressHydrationWarning to the html tag to fix hydration error
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} font-sans`}>
+      {/* Add suppressHydrationWarning to body as well for extension issues */}
+      <body className={`${inter.variable} font-sans`} suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
