@@ -47,17 +47,24 @@ const ShareCopyButtons: React.FC<ShareCopyButtonsProps> = ({ quoteText }) => {
       }
   }, []);
 
+  const copyToClipboard = async (textToCopy: string) => {
+    try {
+      await navigator.clipboard.writeText(textToCopy);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000); // Reset icon after 2 seconds
+      return true;
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+      toast({ title: 'Copy Failed', description: 'Could not copy the text.', variant: 'destructive' });
+      return false;
+    }
+  };
+
   const handleCopy = async () => {
     if (quoteText) {
-      try {
-        await navigator.clipboard.writeText(quoteText);
-        setCopied(true);
-        toast({ title: 'Quote copied!' });
-        setTimeout(() => setCopied(false), 2000); // Reset icon after 2 seconds
-      } catch (err) {
-        console.error('Failed to copy text: ', err);
-        toast({ title: 'Copy Failed', description: 'Could not copy the quote.', variant: 'destructive' });
-      }
+        if(await copyToClipboard(quoteText)) {
+            toast({ title: 'Quote copied!' });
+        }
     } else {
       toast({ title: 'Nothing to copy', description: 'No quote is currently displayed.', variant: 'destructive' });
     }
@@ -71,19 +78,28 @@ const ShareCopyButtons: React.FC<ShareCopyButtonsProps> = ({ quoteText }) => {
     }
   };
 
-  const handleFacebookShare = () => {
+  const handleFacebookShare = async () => {
     if (quoteText) {
-      const encodedQuote = encodeURIComponent(quoteText);
-      const shareUrl = `https://www.facebook.com/sharer/sharer.php?quote=${encodedQuote}`;
-      openShareLink(shareUrl);
+      const textToShare = `${quoteText}\n\n#DailyStandUp #HEGGIEHUB(Links to https://heggie.netlify.app/)`;
+      const success = await copyToClipboard(textToShare);
+      if(success) {
+          toast({
+              title: 'Quote Copied!',
+              description: 'Paste Message in Facebook Post.',
+          });
+          // Optionally open Facebook in a new tab, though the user has to paste manually.
+          // window.open('https://www.facebook.com/', '_blank', 'noopener,noreferrer');
+      }
     } else {
        toast({ title: 'Nothing to share', description: 'No quote is currently displayed.', variant: 'destructive' });
     }
   };
 
+
   const handleWhatsAppShare = () => {
      if (quoteText) {
-        const encodedQuote = encodeURIComponent(quoteText);
+        const textToShare = `${quoteText}\n\n#DailyStandUp #HEGGIEHUB(Links to https://heggie.netlify.app/)`;
+        const encodedQuote = encodeURIComponent(textToShare);
         const shareUrl = `https://wa.me/?text=${encodedQuote}`;
         openShareLink(shareUrl);
      } else {
@@ -93,7 +109,8 @@ const ShareCopyButtons: React.FC<ShareCopyButtonsProps> = ({ quoteText }) => {
 
    const handleTeamsShare = () => {
      if (quoteText) {
-        const encodedQuote = encodeURIComponent(quoteText);
+        const textToShare = `${quoteText}\n\n#DailyStandUp #HEGGIEHUB(Links to https://heggie.netlify.app/)`;
+        const encodedQuote = encodeURIComponent(textToShare);
         // Note: Teams deep links are more complex and often require specific contexts (chats/channels).
         // This basic link opens Teams but might not pre-fill the message effectively everywhere.
         // A more robust solution might involve the Microsoft Graph API.
