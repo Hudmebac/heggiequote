@@ -22,7 +22,7 @@ body {
     --secondary-foreground: 0 0% 9%; /* Near Black */
     --muted: 0 0% 96.1%; /* Light Gray */
     --muted-foreground: 0 0% 45.1%; /* Medium Gray */
-    --accent: 0 0% 94.1%; /* Lighter Silver/Gray */
+    --accent: 0 0% 75%; /* Silver - Adjusted for visibility */
     --accent-foreground: 0 0% 9%; /* Near Black */
     --destructive: 0 84.2% 60.2%; /* Red */
     --destructive-foreground: 0 0% 98%; /* Near White */
@@ -58,7 +58,7 @@ body {
     --secondary-foreground: 0 0% 98%; /* Near White */
     --muted: 0 0% 14.9%; /* Dark Gray */
     --muted-foreground: 0 0% 63.9%; /* Lighter Medium Gray */
-    --accent: 0 0% 14.9%; /* Dark Gray */
+    --accent: 0 0% 75%; /* Silver - Adjusted for visibility */
     --accent-foreground: 0 0% 98%; /* Near White */
     --destructive: 0 62.8% 30.6%; /* Darker Red */
     --destructive-foreground: 0 0% 98%; /* Near White */
@@ -102,7 +102,8 @@ body {
 
 /* Footer styling */
 footer {
-  @apply text-muted-foreground py-4 border-t mt-auto w-full flex justify-center items-center px-4;
+  @apply text-primary py-4 border-t mt-auto w-full flex justify-center items-center px-4; /* Changed text to primary */
+  text-shadow: 0 0 5px hsl(var(--accent) / 0.7); /* Added subtle silver glow */
 }
 /* Header styling */
 header {
@@ -187,7 +188,8 @@ header {
 
 /* Main title in header */
 header h1 {
-  @apply text-primary-foreground; /* Use primary foreground for contrast */
+  @apply text-primary; /* Changed text to primary (orange) */
+  text-shadow: 0 0 5px hsl(var(--accent) / 0.7); /* Added subtle silver glow */
 }
 
 /* Card Title */

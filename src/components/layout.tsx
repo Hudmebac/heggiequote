@@ -18,7 +18,7 @@ const Layout: React.FC<LayoutProps> = ({ children, selectedCategory, setSelected
       {/* Updated header to use card background for better theme integration */}
       <header className="w-full py-4 px-6 border-b bg-card flex items-center justify-center">
         <div className='w-full flex items-center justify-between px-8 max-w-7xl'>
-          {/* Removed explicit text color, relying on theme's foreground */}
+          {/* Main title now styled via globals.css */}
           <h1 className="text-4xl font-bold">Daily Stand Up Quote</h1>
           {/* Use props passed from parent (page.tsx) */}
           <CategorySelect selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
@@ -26,8 +26,8 @@ const Layout: React.FC<LayoutProps> = ({ children, selectedCategory, setSelected
         </div>
       </header>
       <main className="flex-grow p-4 fade-in flex flex-col items-center justify-center w-full px-8">{children}</main>
-      {/* Updated footer to use card background and muted foreground */}
-      <footer className="w-full py-4 border-t bg-card text-muted-foreground flex justify-center items-center px-4">
+      {/* Footer styling handled by globals.css */}
+      <footer className="w-full py-4 border-t bg-card flex justify-center items-center px-4">
         <p>© 2025 Creations by Craig Heggie</p>
       </footer>
     </div>

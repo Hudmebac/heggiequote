@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Copy, Share2, MessageSquare, Check } from 'lucide-react';
+import { Copy, Share2, Check, Volume2, Loader2 } from 'lucide-react'; // Added Volume2, Loader2
 import { useToast } from '@/hooks/use-toast';
 import {
   DropdownMenu,
@@ -37,6 +37,15 @@ interface ShareCopyButtonsProps {
 const ShareCopyButtons: React.FC<ShareCopyButtonsProps> = ({ quoteText }) => {
   const { toast } = useToast();
   const [copied, setCopied] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [speechSynthesis, setSpeechSynthesis] = useState<SpeechSynthesis | null>(null);
+
+  // Get SpeechSynthesis instance on client side
+  useEffect(() => {
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+          setSpeechSynthesis(window.speechSynthesis);
+      }
+  }, []);
 
   const handleCopy = async () => {
     if (quoteText) {
@@ -93,11 +102,40 @@ const ShareCopyButtons: React.FC<ShareCopyButtonsProps> = ({ quoteText }) => {
      } else {
        toast({ title: 'Nothing to share', description: 'No quote is currently displayed.', variant: 'destructive' });
      }
-  };
+   };
 
+   const handleAudioNarration = () => {
+    if (!speechSynthesis) {
+        toast({ title: 'Audio Narration Unavailable', description: 'Your browser does not support speech synthesis.', variant: 'destructive' });
+        return;
+    }
+
+    if (isSpeaking) {
+        speechSynthesis.cancel(); // Stop current speech
+        setIsSpeaking(false);
+    } else if (quoteText) {
+        const utterance = new SpeechSynthesisUtterance(quoteText);
+        utterance.onstart = () => setIsSpeaking(true);
+        utterance.onend = () => setIsSpeaking(false);
+        utterance.onerror = (event) => {
+            console.error('Speech synthesis error:', event);
+            setIsSpeaking(false);
+            toast({ title: 'Audio Failed', description: 'Could not narrate the quote.', variant: 'destructive' });
+        };
+        speechSynthesis.speak(utterance);
+    } else {
+        toast({ title: 'Nothing to narrate', description: 'No quote is currently displayed.', variant: 'destructive' });
+    }
+};
 
   return (
     <div className="flex justify-center gap-2 mt-4"> {/* Reduced gap slightly */}
+       {/* Audio Narration Button */}
+      <Button variant="outline" size="icon" onClick={handleAudioNarration} aria-label="Narrate Quote" disabled={!quoteText || !speechSynthesis}>
+        {/* Use foreground color for icon */}
+        {isSpeaking ? <Loader2 className="h-5 w-5 text-foreground animate-spin" /> : <Volume2 className="h-5 w-5 text-foreground" />}
+      </Button>
+
       {/* Copy Button - Use standard button variant */}
       <Button variant="outline" size="icon" onClick={handleCopy} aria-label="Copy Quote" disabled={!quoteText}>
         {/* Use foreground color for icon */}
